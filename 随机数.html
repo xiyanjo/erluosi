@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    /**
+     * 1 检验参数是否存在
+     * 2 校验参数类型   字符串类型数字及小数兼容
+     * 3 校验数据范围   数据范围可变
+     * 4 校验去重
+     * @param n
+     * @returns {*}
+     */
+    //    返回一个数组，是n个随机且不重复的整数，取值范围[2,32]
+    function random(n) {
+        var min = 2 , max = 32;
+        if(n==undefined){
+            return false;
+        }
+        if(!n>0){
+            return '请输入数字'
+        }
+        var arr = [];
+        /**
+         * 1 n 个随机数
+         */
+        for (var i = 0; i < n; i++) {
+            var arrNum = parseInt(Math.random() * 100);
+            if (arr.length <= n) {
+                if (arrNum > min && arrNum < max) {
+                    if (quchong(arr, arrNum)) {
+                        arr.push(arrNum);
+                    }
+                } else {
+                    i--;
+                }
+            }
+        }
+        return arr;
+
+    }
+
+    function quchong(arr, num) {
+        var flag = true;
+        for (var i = 0; i < arr.length; i++) {
+            if (num == arr[i]) {
+                flag = false
+            }
+        }
+        return flag;
+    }
+
+
+    console.log(random(2));
+    console.log(random(3));
+    console.log(random(5));
+    console.log(random(8));
+    console.log(random('5'));
+    console.log(random());
+
+
+</script>
+</html>

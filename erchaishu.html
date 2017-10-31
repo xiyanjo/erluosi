@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+<script>
+    // 创建二叉树
+    function BinaryTree() {
+        // 节点添加属性
+        var Node = function (key) {
+            this.key = key;
+            this.left = null;
+            this.right = null;
+        };
+
+        var root = null;//根节点
+
+        /**
+         * 插入二叉树
+         * 当前节点没有左右节点的时候
+         * 1.1 新节点小于当前节点，放到当前节点的左节点，
+         * 1.2 新节点大于当前节点，放到当前节点的右节点
+         * 当前节点有左右结点时
+         * 2.1 新节点小于当前节点，放到node.left的左节点
+         * 2.2 新节点大于当前节点，放到node.right的左节点
+         */
+        var insertNode = function (node, newNode) {
+            if (newNode.key < node.key) {
+                if (node.left == null) {
+                    node.left = newNode;
+                } else {
+                    insertNode(node.left, newNode);
+                }
+            } else {
+                if (node.right == null) {
+                    node.right = newNode;
+                } else {
+                    insertNode(node.right, newNode);
+                }
+            }
+
+        };
+
+        /**
+         * 节点插入的方法(闭包自调用）
+         * 1 当前没有根节点，作为根节点
+         * 2 当前有根节点
+         */
+        this.insert = function (key) {
+            var node = new Node(key);
+            if (root == null) {
+                root = node;
+            } else {
+                insertNode(root, node);//插入新节点函数
+            }
+        };
+        /**
+         * 中序遍历法遍历单个节点
+         * 1访问左子数
+         * 2访问当前节点
+         * 3访问右子数
+         */
+        var inOrderTraverseNode = function (node, callback) {
+            if (node != null) {
+                inOrderTraverseNode(node.left, callback);
+                callback(node.key);
+                inOrderTraverseNode(node.right, callback);
+            }
+        };
+
+//        前序遍历 ：先当前节点之后左右节点，效率高于中序
+        var qianxubianli = function (node, callback) {
+            if(node!=null){//此处可以兼容node.left不存在的时候
+                callback(node);
+                qianxubianli(node.left, callback);
+                qianxubianli(node.right,callback);
+            }
+        };
+
+//        后序遍历
+        var houxubianli = function (node, callback) {
+            if(node!=null){//此处可以兼容node.left不存在的时候
+                if(node.left){
+                    houxubianli(node.left,callback);
+                }
+                if(node.right){
+                    houxubianli(node.right,callback);
+                }
+                callback(node);
+            }
+        };
+        //        查找最小节点函数
+        var minNode = function (node) {
+            if(node){
+                while (node&&node.left!=null){
+                    node = node.left;
+                }
+                return node.key;
+            }
+        };
+
+        //        查找最大节点函数
+        var maxNode = function (node) {
+            if(node){
+                while (node&&node.right!=null){
+                    node = node.right;
+                }
+                return node.key;
+            }
+        };
+//        查询节点
+        var searchNode = function (node,key) {
+            if(node ==null){
+                console.log(555);
+                return false;
+            }
+            if(key <node.key){
+                return searchNode(node.left,key);
+            }else if(key>node.key){
+                return searchNode(node.right,key);
+            } else if(key == node.key){
+                return key;
+            }
+        };
+
+        var findeMinNode = function (node) {
+            if(node){
+                while(node && node.left!=null){
+                    node = node.left;
+                }
+                return node;
+            }
+        }
+        /**
+         * 删除节点数函数
+         * 1 node为叶子节点时，直接将该节点赋值为空
+         * 2 node 有左节点时，node = node.left
+         * 3 node 有右节点时，node = node.right
+         * 4 node 有左右节点时：node.key = node.right中的最小值 && 删除node.right最小值
+         */
+        var removeNode = function (node,key) {
+            if(node == null){
+                return null;
+            }
+            if(key <node.key){
+                node.left = removeNode(node.left,key);
+                return node ;
+            } else if(key >node.key){
+                node.right = removeNode(node.right,key);
+                return node ;
+            } else {
+                if(node.left==null && node.right==null){
+                    node = null;
+                    return node;
+                }
+                if(node.left == null ){
+                    node = node.right;
+                    return node;
+                } else if( node.right==null ){
+                    node = node.left;
+                    return node;
+                }
+
+                var aux = findeMinNode(node.right);
+                node.key = aux.key;
+                node.right = removeNode(node.right,aux.key);
+                return node;
+            }
+        };
+//        遍历二叉树
+        this.inOrderTraverse = function (callback) {
+//            inOrderTraverseNode(root, callback);//中序遍历
+//            qianxubianli(root, callback);//前序遍历
+            houxubianli(root, callback);//后序遍历
+
+        };
+        this.min = function () {
+            return minNode(root);
+        };
+        this.max = function () {
+            return maxNode(root);
+        };
+        this.search = function (key) {
+            return searchNode(root,key);
+        };
+        this.remove = function (key) {
+            return removeNode(root,key);
+        }
+    }
+
+    var nodes = [8, 3, 10, 1, 6, 14, 4, 7, 13];//树组
+    var binaryTree = new BinaryTree();
+    nodes.forEach(function (item) {
+        binaryTree.insert(item);
+    });
+    //    要执行的函数
+    var consFun = function (key) {
+        console.log(key);
+    };
+//    binaryTree.inOrderTraverse(consFun);//打印出排序之后的代码
+//    console.log(binaryTree.min());//最小值
+//    console.log(binaryTree.max());//最大值
+//    console.log(binaryTree.search(11));//查询
+    console.log(binaryTree.remove(1));//查询
+
+
+    //    二叉树的遍历：中序，前序，后序
+
+
+    //    前序遍历：
+
+
+</script>
+</html>

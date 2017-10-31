@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- saved from url=(0086)https://skychx.github.io/Game/%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/index.html -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        div{
+            /*background: pink;*/
+        }
+        .none{
+            background: #ffeb9b;
+            border: 1px solid #ccc;
+        }
+        .done{
+            background: #ccc;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <h3>俄罗斯方块</h3>
+    <div class="game" id="game">
+    </div>
+    <div id="others">
+        <div class="next" id="next">
+        </div>
+        <div class="info">
+            <div>已用时：<span id="time">43</span> 秒</div>
+            <div>已得分：<span id="score">0</span> 分</div>
+            <div id="gameOver">GAME OVER!</div>
+        </div>
+    </div>
+    <div id="click">
+        <div id="newGame">NEW</div>
+        <div id="up">U</div>
+        <div id="left">L</div>
+        <div id="right">R</div>
+        <div id="down">D</div>
+        <div id="fall">FALL</div>
+    </div>
+    <!-- <ul>
+         <li>移动端可通过右侧按钮控制游戏</li>
+         <li>桌面端可通过上下左右键控制方向和转向，空格键控制坠落</li>
+     </ul>-->
+</div>
+
+
+
+</body>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/square.js"></script>
+<script src="js/xiyanjolocal.js"></script>
+</html>

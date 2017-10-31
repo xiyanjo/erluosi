@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        div {
+            width: 200px;
+            height: 50px;
+        }
+
+        .pink {
+            background: pink;
+        }
+
+        .blue {
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+<div class="pink">
+    <input type="text">
+</div>
+<div class="blue"></div>
+
+</body>
+<script src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+    function WebSocketTest() {
+        if ("WebSocket" in window) {
+//            var ws = new WebSocket("ws://echo.websocket.org/");// 打开一个 web socket
+            var ws = new WebSocket("ws:/localhost:8001/");// 打开一个 web socket
+            ws.onopen = function () {
+                // Web Socket 已连接上，使用 send() 方法发送数据
+                $('.pink input').on('input', function () {
+                    if($(this).val()){
+                        ws.send($(this).val());//发送数据;
+                    }
+                })
+            };
+            ws.onmessage = function (e) {
+                console.log(e.data);
+                var msg = JSON.parse(e.data);
+                $('.blue').text(msg.data);//e.data接收的数据;
+            };
+            // 关闭 websocket
+            ws.onclose = function () {
+                // alert("连接已关闭...");
+            };
+        }
+        else {
+            // 浏览器不支持 WebSocket
+            console.log("您的浏览器不支持 WebSocket!");
+        }
+    }
+    WebSocketTest();
+
+</script>
+</html>
